@@ -16,6 +16,7 @@ func StartBookingConsumer(brokers []string, topic, group string, uc usecase.Noti
 		Topic:   topic,
 		GroupID: group,
 	})
+	defer r.Close()
 
 	go func() {
 		for {
