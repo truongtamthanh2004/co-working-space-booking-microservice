@@ -24,9 +24,10 @@ type producer struct {
 func New(brokers []string, topic string) Producer {
 	return &producer{
 		writer: &kafka.Writer{
-			Addr:     kafka.TCP(brokers...),
-			Topic:    topic,
-			Balancer: &kafka.Hash{},
+			Addr:         kafka.TCP(brokers...),
+			Topic:        topic,
+			Balancer:     &kafka.Hash{},
+			RequiredAcks: kafka.RequireOne, // acks=1: Leader commit - chờ leader partition xác nhận
 		},
 	}
 }

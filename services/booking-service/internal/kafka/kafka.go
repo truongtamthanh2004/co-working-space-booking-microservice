@@ -18,9 +18,10 @@ type Producer struct {
 func NewProducer(brokers []string, topic string) *Producer {
 	return &Producer{
 		writer: &kafka.Writer{
-			Addr:     kafka.TCP(brokers...),
-			Topic:    topic,
-			Balancer: &kafka.LeastBytes{},
+			Addr:         kafka.TCP(brokers...),
+			Topic:        topic,
+			Balancer:     &kafka.LeastBytes{},
+			RequiredAcks: kafka.RequireOne, // acks=1: Leader commit - chờ leader partition xác nhận
 		},
 	}
 }
